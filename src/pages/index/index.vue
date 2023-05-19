@@ -8,8 +8,22 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 const title = ref('Hello')
+let socket: WebSocket
+const handleMessage = (event: MessageEvent) => {
+  const data = JSON.parse(event.data)
+  // 处理接收到的数据
+}
+const sendData = (data: any) => {
+  socket.send(JSON.stringify(data))
+}
+
+onMounted(() => {
+  socket = new WebSocket('ws://localhost:8080')
+  socket.onmessage = handleMessage
+  console.log('socket', socket)
+})
 </script>
 
 <style>
